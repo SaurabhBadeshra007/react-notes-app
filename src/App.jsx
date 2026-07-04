@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-
+import { Trash } from 'lucide-react';
 
 
 
@@ -12,14 +12,14 @@ const App = () => {
   const [details, setDetails] = useState('')
 
   // notes mapping
-  const[task,setTask] = useState([])
+  const [task, setTask] = useState([])
 
   // form submission handling
   const submitHandler = (e) => {
     e.preventDefault();
- 
+
     const copyTask = [...task];
-    copyTask.push({title,details});
+    copyTask.push({ title, details });
 
 
 
@@ -28,6 +28,16 @@ const App = () => {
     setTitle('')
 
     // console.log(copyTask);
+
+  }
+
+  // function for deleting note
+  const deleteNote = (idx)=>{
+    const copyTask = [...task];
+    // console.log(copyTask[idx]);
+    copyTask.splice(idx,1)
+    setTask(copyTask)
+    
     
   }
 
@@ -52,12 +62,12 @@ const App = () => {
           className='px-5 py-2 border-2 rounded w-full outline-none font-medium' />
 
         {/* detailed input */}
-        <textarea name="" placeholder="Enter details" id="" value={details} 
-        onChange={(e) => {
-          setDetails(e.target.value);
+        <textarea name="" placeholder="Enter details" id="" value={details}
+          onChange={(e) => {
+            setDetails(e.target.value);
 
-        }}
-        className='px-5 h-32 py-2 font-medium border-2 w-full rounded' />
+          }}
+          className='px-5 h-32 py-2 font-medium border-2 w-full rounded' />
 
         <button className='bg-white font-medium text-black px-5 py-2 rounded w-full outline-none' > Add Note</button>
 
@@ -75,11 +85,28 @@ const App = () => {
         <div className='flex flex-wrap items-start  gap-5 justify-start mt-5 h-full overflow-auto '>
 
           {/* <div className='h-52 w-40 rounded-2xl bg-white'>        </div> */}
-             {task.map(function(elem,idx){
-            return  <div key={idx} className='h-52 w-40 rounded-2xl text-black p-4 bg-white'> 
-            <h3 className='leading-tight text-xl font-bold'>{elem.title}</h3>
-            <p className='mt-2 leading-tight font-medium text-gray-500'>{elem.details} </p>
-                   </div>
+          {task.map(function (elem, idx) {
+            return <div key={idx} className="h-52 w-40 justify-between flex flex-col items-start relative rounded-xl text-black px-4 pb-4 pt-9 bg-cover bg-[url('https://static.vecteezy.com/system/resources/thumbnails/037/152/675/small/sticky-note-paper-background-free-png.png')]">
+              
+            {/* notes details in the div */}
+            <div>
+
+
+             {/* Title heading */}
+              <h3 className='leading-tight text-xl font-bold'>{elem.title}</h3>
+
+              {/* notes discription */}
+              <p className='mt-2 leading-tight font-medium text-gray-500'>{elem.details} </p>
+            </div>
+
+            {/* delete notes icon */}
+            <button onClick={()=>{
+              deleteNote(idx)
+            }}
+            className='flex flex-row gap-3 w-full bg-red-600 text-white cursor-pointer active:scale-95 hover:scale-105 py-1 font-bold rounded-xl text-xs justify-center'>
+               Delete
+               </button>
+            </div>
           })}
 
         </div>
