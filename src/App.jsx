@@ -115,39 +115,52 @@ const App = () => {
         <div className='flex flex-wrap items-start  gap-5 justify-start mt-5 h-full overflow-auto '>
 
           {/* <div className='h-52 w-40 rounded-2xl bg-white'>        </div> */}
-          {task.map(function (elem, idx) {
-            return <div key={idx} className="h-52 w-40 justify-between flex flex-col items-start relative rounded-xl text-black px-4 pb-4 pt-9 bg-cover bg-[url('https://static.vecteezy.com/system/resources/thumbnails/037/152/675/small/sticky-note-paper-background-free-png.png')]">
-              
-            {/* notes details in the div */}
-            <div>
+       {task.length === 0 ? (
 
+  <div className='w-full flex flex-col items-center justify-center mt-20 text-gray-400'>
+    <h2 className='text-2xl font-bold'>📝 No Notes Yet</h2>
+    <p className='mt-2 text-sm'>Create your first note by filling the form.</p>
+  </div>
 
-             {/* Title heading */}
-              <h3 className='leading-tight text-xl font-bold'>{elem.title}</h3>
+) : (
 
-              {/* notes discription */}
-              <p className='mt-2 leading-tight font-medium text-gray-500'>{elem.details} </p>
-            </div>
+  task.map(function (elem, idx) {
+    return <div key={idx} className="h-52 w-40 justify-between flex flex-col items-start relative rounded-xl text-black px-4 pb-4 pt-9 bg-cover bg-[url('https://static.vecteezy.com/system/resources/thumbnails/037/152/675/small/sticky-note-paper-background-free-png.png')]">
+      
+      {/* notes details in the div */}
+      <div>
 
-            {/* delete notes icon */}
+        {/* Title heading */}
+        <h3 className='leading-tight text-xl font-bold'>{elem.title}</h3>
 
-            <div className='flex flex-row items-center gap-7'>
-            <button onClick={()=>{
-              editNotes(idx)
-            }}
-             className='w-auto bg-red-600 text-white cursor-pointer active:scale-95 hover:scale-105 p-2 font-bold rounded-xl text-xs justify-center'>
-              Edit
-            </button>
-          
-            <button onClick={()=>{
-              deleteNote(idx)
-            }}
-            className=' w-auto bg-red-600 text-white cursor-pointer active:scale-95 hover:scale-105 p-2 font-bold rounded-xl text-xs justify-center'>
-               Delete
-               </button>
-                 </div>
-            </div>
-          })}
+        {/* notes discription */}
+        <p className='mt-2 leading-tight font-medium text-gray-500'>{elem.details}</p>
+      </div>
+
+      {/* delete notes icon */}
+
+      <div className='flex flex-row items-center gap-7'>
+        <button
+          onClick={() => {
+            editNotes(idx)
+          }}
+          className='w-auto bg-red-600 text-white cursor-pointer active:scale-95 hover:scale-105 p-2 font-bold rounded-xl text-xs justify-center'>
+          Edit
+        </button>
+
+        <button
+          onClick={() => {
+            deleteNote(idx)
+          }}
+          className='w-auto bg-red-600 text-white cursor-pointer active:scale-95 hover:scale-105 p-2 font-bold rounded-xl text-xs justify-center'>
+          Delete
+        </button>
+      </div>
+
+    </div>
+  })
+
+)}
 
         </div>
       </div>
