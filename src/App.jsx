@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react'
 import { Trash } from 'lucide-react';
 
@@ -11,25 +12,54 @@ const App = () => {
   // for notes details
   const [details, setDetails] = useState('')
 
+  //  for edit
+  const [edit, setEdit] = useState(null);
   // notes mapping
   const [task, setTask] = useState([])
 
   // form submission handling
   const submitHandler = (e) => {
-    e.preventDefault();
+  e.preventDefault();
 
+  // Form Validation
+  if (title.trim() === "" || details.trim() === "") {
+    alert("Please fill all fields");
+    return;
+  }
+
+  if (edit === null) {
+    // Add New Note
+    setTask([...task, { title, details }]);
+  } else {
+    // Update Existing Note
     const copyTask = [...task];
-    copyTask.push({ title, details });
+
+    copyTask[edit] = {
+      title,
+      details,
+    };
+
+    setTask(copyTask);
+
+    // Exit edit mode
+    setEdit(null);
+  }
+
+  // Clear form
+  setTitle("");
+  setDetails("");
+};
 
 
 
-    setTask(copyTask)
-    setDetails('')
-    setTitle('')
-
-    // console.log(copyTask);
+  // function for editing of notes
+  const editNotes = (idx)=>{
+    setTitle(task[idx].title);
+  setDetails(task[idx].details);
+  setEdit(idx);
 
   }
+
 
   // function for deleting note
   const deleteNote = (idx)=>{
@@ -100,12 +130,22 @@ const App = () => {
             </div>
 
             {/* delete notes icon */}
+
+            <div className='flex flex-row items-center gap-7'>
+            <button onClick={()=>{
+              editNotes(idx)
+            }}
+             className='w-auto bg-red-600 text-white cursor-pointer active:scale-95 hover:scale-105 p-2 font-bold rounded-xl text-xs justify-center'>
+              Edit
+            </button>
+          
             <button onClick={()=>{
               deleteNote(idx)
             }}
-            className='flex flex-row gap-3 w-full bg-red-600 text-white cursor-pointer active:scale-95 hover:scale-105 py-1 font-bold rounded-xl text-xs justify-center'>
+            className=' w-auto bg-red-600 text-white cursor-pointer active:scale-95 hover:scale-105 p-2 font-bold rounded-xl text-xs justify-center'>
                Delete
                </button>
+                 </div>
             </div>
           })}
 
